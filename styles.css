@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.calculator-container {
+    background-color: darkslategray;
+    height: 100vh;
+    width: 100vw;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calculator-screen {
+    background-color: gray;
+    margin: 30px 10px 10px 10px;
+    width: 90%;
+    height: 25%;
+	box-shadow: black 0px 0px 7px 1px inset;
+    border-radius: 7px;
+}
+
+.buttons-container {
+    width: 90%;
+    margin-top: 50px;
+    gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.row button {
+    font-size: 40px;
+    padding: 5px 5px;
+    width: 20%;
+    height: 9vh;
+}
+
+.equal {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.equal button {
+    font-size: 40px;
+    width: 80%;
+    height: 10vh;
+    padding: 10px 15px;
+}
+
+#CE, #plusminus {
+    font-size: 30px;
+}
+
+button {
+    background-color: antiquewhite;
+    box-shadow: 2px 2px 0 hsl(0deg 0% 0% / 0.5);
+    border-radius: 5px;
+    outline-offset: 4px;
+}
+
+button:active {
+    transform: translateY(+2px);
+    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+    box-shadow: 1px 1px 0 hsl(0deg 0% 0% / 0.5);
+}
+
+@media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
+    body {
+        background-color: azure;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .calculator-screen {
+        height: 150px;
+    }
+
+    .calculator-container {
+        width: 400px;
+        height: 700px;
+        border-radius: 10px;
+        box-shadow: 7px 9px 15px;
+    }
+
+    .row button {
+        font-size: 25px;
+        height: 55px;
+    }
+
+    .equal button {
+        font-size: 25px;
+        height: 65px;
+    }
+
+    #CE, #plusminus {
+        font-size: 20px;
+    }
+}
