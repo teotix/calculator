@@ -1,29 +1,43 @@
+const buttons = document.querySelectorAll("button");
+const calcNumber = document.querySelector(".numbers-container");
+const calcSign = document.querySelector(".sign");
+const ce = document.querySelector("#CE");
+
 function add(a, b) {
-  return a + b;
+  if (String(a + b).split(".")[1]) return (a + b).toFixed(2);
+  else return a + b;
 }
 
 function substract(a, b) {
-  return a - b;
+  if (String(a - b).split(".")[1]) return (a - b).toFixed(2);
+  else return a - b;
 }
 
 function multiply(a, b) {
-  return a * b;
+  if (String(a * b).split(".")[1]) return (a * b).toFixed(2);
+  else return a * b;
 }
 
 function divide(a, b) {
-  return (a / b).toFixed(2);
+  if (b == 0) {
+    return "Nah";
+  } else if (String(a / b).split(".")[1]) return (a / b).toFixed(2);
+  else return a / b;
 }
 
 function modulo(a, b) {
-  return a % b;
+  if (String(a % b).split(".")[1]) return (a % b).toFixed(2);
+  else return a % b;
 }
 
 function root(a) {
-  return Math.sqrt(a).toFixed(2);
+  if (String(Math.sqrt(a)).split(".")[1]) return Math.sqrt(a).toFixed(2);
+  else return Math.sqrt(a);
 }
 
 function power(a, b) {
-  return Math.pow(a, b);
+  if (String(Math.pow(a, b)).split(".")[1]) return Math.pow(a, b).toFixed(2);
+  else return Math.pow(a, b);
 }
 
 function operate(a, b, op) {
@@ -34,7 +48,7 @@ function operate(a, b, op) {
     case "-":
       return substract(a, b);
       break;
-    case "*":
+    case "x":
       return multiply(a, b);
       break;
     case "/":
@@ -43,23 +57,102 @@ function operate(a, b, op) {
     case "%":
       return modulo(a, b);
       break;
-    case "root":
-      return root(a);
-      break;
-    case "power":
+    case "^":
       return power(a, b);
       break;
   }
 }
 
-let firstNum;
-let operator = "";
-let secondNum;
+function CE() {
+  firstNum = "";
+  operator = "";
+  secondNum = "";
+  calcNumber.innerText = "";
+  calcSign.innerText = "";
+  result = "";
+}
 
-console.log(add(5, 12));
-console.log(substract(5, 12));
-console.log(multiply(5, 12));
-console.log(divide(5, 12));
-console.log(modulo(166, 14));
-console.log(root(18));
-console.log(power(29, 18));
+ce.addEventListener("click", CE);
+
+let firstNum = "";
+let operator = "";
+let secondNum = "";
+let result = "";
+
+console.log(firstNum);
+let clickedSecondTime = false;
+
+buttons.forEach((elem) => {
+  elem.addEventListener("click", (e) => {
+    if (isNaN(e.target.innerText)) {
+      if (!firstNum) calcNumber.innerText = "";
+      else if (firstNum && !secondNum) {
+        if (firstNum == "Nah") {
+          calcNumber.innerText = firstNum;
+          CE();
+        } else if (e.target.innerText == "." && !firstNum.includes(".")) {
+          firstNum += e.target.innerText;
+          calcNumber.innerText = firstNum;
+        } else if (e.target.innerText == "+/-") {
+          firstNum = firstNum *= -1;
+          firstNum = String(firstNum);
+          calcNumber.innerText = firstNum;
+        } else if (
+          e.target.innerText != "=" &&
+          e.target.innerText != "←" &&
+          e.target.innerText != "." &&
+          e.target.innerText != "+/-"
+        ) {
+          operator = e.target.innerText;
+          calcSign.innerText = operator;
+        } else if (e.target.innerText == "←") {
+          firstNum = firstNum.slice(0, -1);
+          calcNumber.innerText = firstNum;
+        }
+      } else if (firstNum && operator) {
+        if (e.target.innerText == "." && !secondNum.includes(".")) {
+          secondNum += e.target.innerText;
+          calcNumber.innerText = secondNum;
+          console.log(firstNum);
+          console.log(secondNum);
+        } else if (!secondNum) calcNumber.innerText = "0";
+        else if (e.target.innerText == "+/-") {
+          secondNum = secondNum *= -1;
+          secondNum = String(secondNum);
+          calcNumber.innerText = secondNum;
+        } else if (e.target.innerText == "←") {
+          secondNum = secondNum.slice(0, -1);
+          calcNumber.innerText = secondNum;
+        } else {
+          firstNum = String(
+            operate(
+             +firstNum,
+              +secondNum,
+              operator// e.target.innerText != "=" ? e.target.innerText : operator
+            )
+          );
+          secondNum = "";
+          e.target.innerText == "="
+            ? (calcSign.innerText = "")
+            : (calcSign.innerText = e.target.innerText);
+          calcNumber.innerText = firstNum;
+          console.log(firstNum, secondNum);
+        }
+      }
+    } else if (!isNaN(e.target.innerText)) {
+      if ((operator && !calcSign.innerText) || firstNum == "Nah") {
+        CE();
+        firstNum = e.target.innerText;
+        calcNumber.innerText = firstNum;
+      } else {
+        if (!operator) {
+          firstNum += e.target.innerText;
+          calcNumber.innerText = firstNum;
+        } else {
+          secondNum += e.target.innerText;
+          calcNumber.innerText = secondNum;
+        }
+      }
+    }
+  });
+});
