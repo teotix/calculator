@@ -77,10 +77,6 @@ ce.addEventListener("click", CE);
 let firstNum = "";
 let operator = "";
 let secondNum = "";
-let result = "";
-
-console.log(firstNum);
-let clickedSecondTime = false;
 
 buttons.forEach((elem) => {
   elem.addEventListener("click", (e) => {
@@ -113,8 +109,6 @@ buttons.forEach((elem) => {
         if (e.target.innerText == "." && !secondNum.includes(".")) {
           secondNum += e.target.innerText;
           calcNumber.innerText = secondNum;
-          console.log(firstNum);
-          console.log(secondNum);
         } else if (!secondNum) calcNumber.innerText = "0";
         else if (e.target.innerText == "+/-") {
           secondNum = secondNum *= -1;
@@ -124,19 +118,12 @@ buttons.forEach((elem) => {
           secondNum = secondNum.slice(0, -1);
           calcNumber.innerText = secondNum;
         } else {
-          firstNum = String(
-            operate(
-             +firstNum,
-              +secondNum,
-              operator// e.target.innerText != "=" ? e.target.innerText : operator
-            )
-          );
+          firstNum = String(operate(+firstNum, +secondNum, calcSign.innerText));
           secondNum = "";
           e.target.innerText == "="
             ? (calcSign.innerText = "")
             : (calcSign.innerText = e.target.innerText);
           calcNumber.innerText = firstNum;
-          console.log(firstNum, secondNum);
         }
       }
     } else if (!isNaN(e.target.innerText)) {
